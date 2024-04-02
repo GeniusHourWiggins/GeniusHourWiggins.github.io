@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Facts</title>
+    <style>
+        body {
+            background-color: #667b68;
+            font-family: 'Comic Sans MS', cursive;
+            color: #fceee9;
+        }
+
+        #catfacts {
+            display: inline-block;
+            padding: 10px;
+            border: 4px solid #fceee9;
+            border-radius: 5px;
+            margin-left: 35%;
+            margin-right: 30%;
+        }
+
+        #catimg {
+            display: block;
+            margin: 0 auto;
+            width: 25%;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            transition: transform 0.05s ease-in-out;
+        }
+
+        .flipped {
+            transform: scaleX(-1); /* Flip the image horizontally */
+        }
+    </style>
+</head>
+<body>
+    <img id="catimg" src="https://pngimg.com/d/cat_PNG50512.png">
+    <h1 id="catfacts">Loading Cat Facts...</h1>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchCatFact(); // Fetch the first cat fact immediately
+
+            setInterval(function () {
+                fetchCatFact(); // Fetch a new cat fact every 10 seconds
+            }, 10000); // Change every 10000 milliseconds (10 seconds)
+
+            setInterval(function () {
+                const img = document.getElementById('catimg');
+                img.classList.toggle('flipped');
+            }, 500); // Change image flip every 500 milliseconds (0.5 second)
+
+            function fetchCatFact() {
+                fetch('https://catfact.ninja/fact')
+                    .then(response => response.json())
+                    .then(data => {
+                        const catfactsElement = document.getElementById('catfacts');
+                        adjustFontSize(catfactsElement, data.fact);
+                        catfactsElement.innerHTML = data.fact;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching cat fact:', error);
+                    });
+            }
+
+            function adjustFontSize(element, text) {
+                // Set a base font size
+                let fontSize = 16;
+
+                // Set the font size based on the length of the text
+                if (text.length > 100) {
+                    fontSize = 20;
+                } else if (text.length > 50) {
+                    fontSize = 32;
+                }
+
+                // Apply the calculated font size to the element
+                element.style.fontSize = fontSize + 'px';
+            }
+        });
+    </script>
+</body>
+</html>

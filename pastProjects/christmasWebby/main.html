@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Christmas Wishlists</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS';
+      background-image: url('https://img.freepik.com/premium-vector/seamless-repeating-pattern-night-sky-full-stars_209002-105.jpg');
+      background-size: 30vw;
+      background-position: center center;
+      text-align: center;
+      padding-top: 10vh; /* Adjust top padding based on screen size */
+      overflow: hidden;
+      position: relative;
+    }
+    h1 {
+      color: #fff;
+      margin-bottom: 4vh; /* Adjust bottom margin based on screen size */
+      text-shadow: 0.5vw 0.5vw 1vw #000; /* Adjust text shadow based on screen size */
+      font-size: 8vw; /* Adjust font size based on screen size */
+      width: 100vw; /* Make h1 element as wide as the screen */
+      margin-left: calc(50% - 50vw); /* Center the h1 element */
+      margin-right: calc(50% - 50vw); /* Center the h1 element */
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4vh; /* Set gap between buttons based on screen height */
+      margin-top: 6vh; /* Adjust top margin based on screen size */
+    }
+    .wishlist-button {
+      display: inline-block;
+      padding: 3vh 6vw; /* Adjust padding based on screen size */
+      border: 0.3vw solid #fff; /* Adjust border thickness based on screen size */
+      border-radius: 1vh; /* Adjust border radius based on screen size */
+      background-color: #fff;
+      color: #2ecc71;
+      font-size: 2.5vh; /* Adjust font size based on screen size */
+      font-weight: bold;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .wishlist-button:hover {
+      background-color: #2ecc71;
+      color: #fff;
+    }
+    .snowflake {
+      position: absolute;
+      background: #ffffff;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: snowfall linear infinite;
+    }
+    @keyframes snowfall {
+      0% {
+        transform: translateY(-5%);
+      }
+      100% {
+        transform: translateY(100vh);
+      }
+    }
+    /* JavaScript will be added to dynamically create snowflakes */
+  </style>
+</head>
+<body>
+  <h1>Christmas Wishlists</h1>
+  <div class="button-container">
+    <a href="chaseList.html" class="wishlist-button">Chase's Wishlist</a>
+    <a href="https://sites.google.com/wiggins50.k12.co.us/kynleeswishlist/home" class="wishlist-button">Kynlee's Wishlist</a>
+    <a href="dalenList.html" class="wishlist-button">Dalen's Wishlist</a>
+  </div>
+  <!-- Snowflakes will be dynamically added here -->
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const numberOfSnowflakes = 80; // Change this number to adjust the amount of snowflakes
+      
+      for (let i = 0; i < numberOfSnowflakes; i++) {
+        createSnowflake();
+      }
+      
+      function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        
+        snowflake.style.width = `${Math.floor(Math.random() * 10) + 5}px`;
+        snowflake.style.height = snowflake.style.width;
+        snowflake.style.top = '-5px';
+        snowflake.style.left = `${Math.random() * 100}vw`;
+        snowflake.style.animationDuration = `${Math.floor(Math.random() * 10) + 8}s`;
+        snowflake.style.animationDelay = `${Math.random() * 3}s`;
+        
+        document.body.appendChild(snowflake);
+      }
+    });
+  </script>
+</body>
+</html>
