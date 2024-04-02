@@ -1,33 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title></title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript">
-
-    var keyword = "mountains";
-
-    $(document).ready(function(){
-
-        $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
-        {
-            tags: keyword,
-            tagmode: "any",
-            format: "json"
-        },
-        function(data) {
-            var rnd = Math.floor(Math.random() * data.items.length);
-
-            var image_src = data.items[rnd]['media']['m'].replace("_m", "_b");
-
-            $('body').css('background-image', "url('" + image_src + "')");
-
-        });
-
-    });
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Flickr Image</title>
+    <style>
+        #randomImage {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            display: block;
+        }
+    </style>
 </head>
 <body>
+    <h1>Random Flickr Image</h1>
+    <label for="searchInput">Enter a keyword to search:</label>
+    <input type="text" id="searchInput">
+    <button onclick="fetchRandomImage()">Search</button>
+    <img id="randomImage" src="#" alt="Random Image">
+    
+    <script>
+        // Function to fetch a random image from Flickr API based on a keyword
+        function fetchRandomImage() {
+            const apiKey = 'f3e49483ee260f026062607639da2448'; // API Key
+            const keyword = document.getElementById('searchInput').value.trim();
+            
+            if (keyword === '') {
+                alert('Please enter a keyword to search for.');
+                return;
+            }
 
+            // Flickr API endpoint for searching images
+            const flickrAPI = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${keyword}&safe_search=1&format=json&nojsoncallback=1`;
+            
+            // Fetch data from the Flickr API
+            fetch(flickrAPI)
+                .then(response => response.json())
+                .then(data => {
+                    const photos = data.photos.photo;
+                    if (photos.length === 0) {
+                        alert('No images found for the given keyword.');
+                        return;
+                    }
+                    const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
+                    const photoURL = `https://farm${randomPhoto.farm}.staticflickr.com/${randomPhoto.server}/${randomPhoto.id}_${randomPhoto.secret}.jpg`;
+                    
+                    // Set the source of the image element to the fetched image URL
+                    document.getElementById('randomImage').src = photoURL;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+    </script>
 </body>
 </html>
